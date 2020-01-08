@@ -14,6 +14,8 @@ export default {
   mutations: {
     [mutt.SET_TOKEN](state, token) {
       state.token = token;
+      localStorage.token = token;
+      http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     },
     [mutt.SET_AUTH_ERROR](state, error) {
       state.error = error;
@@ -34,8 +36,6 @@ export default {
         http.post('/identity-server/connect/token', body).then(
           r => {
             const token = r.data.access_token;
-            localStorage.token = token;
-            http.defaults.headers.common['Authorization'] = token;
             commit(mutt.SET_TOKEN, token);
             resolve(r.data);
           },
@@ -49,7 +49,7 @@ export default {
   },
   getters: {
     isLogin(state) {
-      return !!state.token;
+      return !!state.token && localStorage.token;
     },
   },
 };

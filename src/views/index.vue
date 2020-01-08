@@ -1,19 +1,19 @@
 <template>
   <main>
     <HomeBaner />
-    <ArticleList />
+    <!-- <ArticleList /> -->
   </main>
 </template>
 
 <script>
 import HomeBaner from '@/components/home-baner/home-baner';
-import ArticleList from '@/components/article-list/article-list';
+// import ArticleList from '@/components/article-list/article-list';
 
 export default {
   name: 'home',
   components: {
     HomeBaner,
-    ArticleList,
+    // ArticleList,
   },
 };
 </script>

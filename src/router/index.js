@@ -6,7 +6,7 @@ import store from '@/store';
  * Route views
  * -----------
  */
-import Home from '../views/Home.vue';
+import Home from '@/views/index.vue';
 import loginRoute from '@/views/login.vue';
 
 Vue.use(VueRouter);
@@ -41,6 +41,7 @@ router.beforeEach((to, from, next) => {
     to.matched.some(record => record.meta.notProtected) ||
     store.getters['auth/isLogin']
   ) {
+    store.commit('auth/SET_TOKEN', localStorage.token);
     return next();
   }
 
