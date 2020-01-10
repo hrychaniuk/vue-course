@@ -15,7 +15,7 @@
           }}</time>
 
           <router-link :to="'/'">
-            {{ getTag(article.data.categs) }}
+            {{ $t(`label.${_getTag(article.data.categs)}`) }}
           </router-link>
         </div>
         <h1>{{ article.data.title }}</h1>
@@ -25,8 +25,6 @@
         >
       </div>
     </section>
-
-    <pre v-if="article">{{ getTag(article.data.categs) }}</pre>
   </div>
 </template>
 
@@ -39,20 +37,12 @@ export default {
       article: 'firstArtice',
     }),
   },
-  methods: {
-    getTag(categories) {
-      const result = this.getTagById(categories[0]);
-      if (!result) return '';
-
-      return result.data.category;
-    },
-  },
   created() {
     this.$store.dispatch('blog/getArticles');
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'home-baner.scss';
 </style>

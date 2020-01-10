@@ -12,7 +12,7 @@ export default {
     error: null,
   },
   mutations: {
-    [mutt.SET_TOKEN](state, token) {
+    [mutt.SET_TOKEN](state, token = localStorage.token) {
       state.token = token;
       localStorage.token = token;
       http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
@@ -26,11 +26,11 @@ export default {
       return new Promise((resolve, reject) => {
         const body = new FormData();
         body.set('grant_type', 'client_credentials');
-        body.set('client_id', 'logos:reader');
+        body.set('client_id', 'logos:default');
         body.set('scope', 'squidex-api');
         body.set(
           'client_secret',
-          'tb0rmhmrm8cz6lcgel69adsy5fiuxgpxawqm5ovaxdcx',
+          'mdjl7lxxzjc3rcuywnuycgkzvhw0xd7fsmpkhnehh0ix',
         );
 
         http.post('/identity-server/connect/token', body).then(
