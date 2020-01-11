@@ -27,7 +27,6 @@ export default {
             resolve(r.data);
           },
           ({ response }) => {
-            console.dir(response);
             reject(response.data);
           },
         );
