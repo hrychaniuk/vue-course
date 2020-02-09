@@ -1,3 +1,5 @@
+import { /*mapState,*/ mapGetters } from 'vuex';
+
 export const mixin = {
   methods: {
     _getTag(categories) {
@@ -8,5 +10,10 @@ export const mixin = {
 
       return result.data.category;
     },
+  },
+  computed: {
+    ...mapGetters('blog', {
+      getTagById: 'getTagById',
+    }),
   },
 };

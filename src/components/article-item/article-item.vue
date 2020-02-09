@@ -21,14 +21,8 @@
 </template>
 
 <script>
-import { /*mapState,*/ mapGetters } from 'vuex';
 export default {
   props: ['id', 'data'],
-  computed: {
-    ...mapGetters('blog', {
-      getTagById: 'getTagById',
-    }),
-  },
 };
 </script>
 
