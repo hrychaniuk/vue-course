@@ -8,7 +8,7 @@ const mutt = {
 export default {
   namespaced: true,
   state: {
-    token: localStorage.token || null,
+    token: null,
     error: null,
   },
   mutations: {
@@ -22,7 +22,9 @@ export default {
     },
   },
   actions: {
-    login({ commit }) {
+    login({ commit, getters, dispatch }) {
+      if (getters.isLogin) return Promise.resolve();
+
       return new Promise((resolve, reject) => {
         const body = new FormData();
         body.set('grant_type', 'client_credentials');
@@ -34,9 +36,10 @@ export default {
         );
 
         http.post('/identity-server/connect/token', body).then(
-          r => {
+          async r => {
             const token = r.data.access_token;
             commit(mutt.SET_TOKEN, token);
+            dispatch('translations/getAll', null, { root: true });
             resolve(r.data);
           },
           ({ response }) => {

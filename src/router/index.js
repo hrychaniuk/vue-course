@@ -37,16 +37,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  store.commit('auth/SET_TOKEN');
-  await store.dispatch('translations/getAll');
-  
   if (
     to.matched.some(record => record.meta.notProtected) ||
     store.getters['auth/isLogin']
   ) {
     return next();
   }
-
 
   store.dispatch('auth/login').then(
     () => {

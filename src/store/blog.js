@@ -40,7 +40,7 @@ export default {
     },
     getArticles({ commit, state, dispatch }) {
       if (state.loaded) return;
-
+      
       commit(mutt.SET_LOADED);
       return Promise.all([
         new Promise((resolve, reject) => {
