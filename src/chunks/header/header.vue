@@ -10,6 +10,8 @@
       </button>
 
       <nav class="nav">
+        <button @click="go">Go Blog</button>
+
         <router-link to="/">Home</router-link> |
         <router-link to="/blog">Blog</router-link>
       </nav>
@@ -21,17 +23,21 @@
 export default {
   data() {
     return {
-      active: false,
+      active: false
     };
   },
   methods: {
+    go() {
+      // this.$router.replace("/blog");
+    },
     toogleActive() {
       this.active = !this.active;
-    },
+    }
   },
+  created() {}
 };
 </script>
 
 <style lang="scss" scoped>
-@import 'header.scss';
+@import "header.scss";
 </style>

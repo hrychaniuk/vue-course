@@ -24,25 +24,28 @@
           >Дізнатись більше</router-link
         >
       </div>
+      <pre>{{ totalCountCars }}</pre>
     </section>
   </div>
 </template>
 
 <script>
-import { /*mapState,*/ mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters('blog', {
-      getTagById: 'getTagById',
-      article: 'firstArtice',
-    }),
+    ...mapGetters("cars", ["totalCountCars"]),
+    ...mapGetters("blog", {
+      getTagById: "getTagById",
+      article: "firstArtice"
+    })
   },
   created() {
-    this.$store.dispatch('blog/getArticles');
-  },
+    this.$store.dispatch("blog/getArticles");
+    this.$store.dispatch("cars/getCars");
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import 'home-baner.scss';
+@import "home-baner.scss";
 </style>

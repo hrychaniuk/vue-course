@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import HomeBaner from '@/components/home-baner/home-baner';
-import ArticleList from '@/components/article-list/article-list';
+import HomeBaner from "@/components/home-baner/home-baner";
+import ArticleList from "@/components/article-list/article-list";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
     HomeBaner,
-    ArticleList,
-  },
+    ArticleList
+  }
 };
 </script>

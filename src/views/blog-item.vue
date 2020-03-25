@@ -1,5 +1,5 @@
 <template>
-  <section v-if="singleArticle">
+  <section>
     <h1>{{ singleArticle.title }}</h1>
     <img width="500" :src="singleArticle.image[0]" alt="" />
     <router-link :to="'/'">
@@ -10,17 +10,31 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mutt } from "@/store/blog";
+import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState('blog', ['singleArticle']),
+    ...mapState("blog", ["singleArticle"]) // < -- null --- waiting <-- data Article
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit(`blog/${mutt.DEL_SINGLE_ARCTICLE}`);
+    next();
   },
   methods: {
-    ...mapActions('blog', ['getArticleBySlug']),
+    ...mapActions("blog", ["getArticleBySlug"])
+  },
+  beforeRouteEnter(/*to, from, next*/) {
+    // store.dispatch('articles/getArticleBySlug', route.slug).then(next)
+    // called before the route that renders this component is confirmed.
+    // does NOT have access to `this` component instance,
+    // because it has not been created yet when this guard is called!
+    // next(vm => {})
   },
   created() {
-    this.getArticleBySlug(this.$route.params.slug);
-  },
+    // now request in creaated
+    // make in hook beforeRouteEnter
+    this.getArticleBySlug(this.$route.params.slug); // ------> request from VUEX ---> waiting (5s) --> commit(singleArticle) ---> state = singleArticle
+  }
 };
 </script>

@@ -1,61 +1,61 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import store from '@/store';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "@/store";
 /**
  * -----------
  * Route views
  * -----------
  */
-import Home from '@/views/index.vue';
-import loginRoute from '@/views/login.vue';
+import Home from "@/views/index.vue";
+import loginRoute from "@/views/login.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home,
+    path: "/",
+    name: "home",
+    component: Home
   },
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     component: loginRoute,
-    meta: { notProtected: true },
+    meta: { notProtected: true }
   },
   {
-    path: '/blog',
-    name: 'blog',
-    component: () => import('@/views/blog.vue'),
+    path: "/blog",
+    name: "blog",
+    component: () => import("@/views/blog.vue")
   },
   {
-    path: '/blog/:slug',
-    name: 'blogitem',
-    component: () => import('@/views/blog-item.vue'),
-  },
+    path: "/blog/:slug",
+    name: "blogitem",
+    component: () => import("@/views/blog-item.vue")
+  }
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeEach(async (to, from, next) => {
   if (
     to.matched.some(record => record.meta.notProtected) ||
-    store.getters['auth/isLogin']
+    store.getters["auth/isLogin"]
   ) {
     return next();
   }
 
-  store.dispatch('auth/login').then(
+  store.dispatch("auth/login").then(
     () => {
       next();
     },
     () => {
-      next('/login');
-    },
+      next("/login");
+    }
   );
 });
 

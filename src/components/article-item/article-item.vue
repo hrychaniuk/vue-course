@@ -14,7 +14,10 @@
         </div>
         <h1>{{ data.title }}</h1>
         <div class="cms" v-html="data.intro"></div>
-        <router-link :to="'/blog/' + data.slug">Дізнатись більше</router-link>
+
+        <router-link :to="'/blog/' + data.slug">{{
+          $t("global.article-more")
+        }}</router-link>
       </div>
     </article>
   </li>
@@ -22,10 +25,11 @@
 
 <script>
 export default {
-  props: ['id', 'data'],
+  props: ["id", "data"]
 };
 </script>
 
 <style lang="scss" scoped>
-@import 'article-item.scss';
+// @import "@/assets/scss/settings.scss";
+@import "article-item.scss";
 </style>
