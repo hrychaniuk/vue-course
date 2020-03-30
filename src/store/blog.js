@@ -1,6 +1,7 @@
 import { http } from "@/plugins/http";
 
 const mutt = {
+  SET_FILT_ARTICLES: "SET_FILT_ARTICLES",
   SET_SINGLE_ARCTICLE: "SET_SINGLE_ARCTICLE",
   DEL_SINGLE_ARCTICLE: "DEL_SINGLE_ARCTICLE",
   SET_ARTICLES: "SET_ARTICLES",
@@ -14,11 +15,15 @@ export default {
   namespaced: true,
   state: {
     articles: [],
-    tags: [],
+    filteredArticles: [],
+    tags: null,
     singleArticle: null,
     loaded: false
   },
   mutations: {
+    [mutt.SET_FILT_ARTICLES](state, articles) {
+      state.filteredArticles = articles;
+    },
     [mutt.SET_ARTICLES](state, articles) {
       state.articles = articles;
     },
@@ -89,11 +94,30 @@ export default {
             }
           );
       });
+    },
+    getArticlesByTag({ commit, dispatch }, tagId) {
+      const objectWithSettings = tagId
+        ? {
+            params: {
+              $filter: `data/categs/iv eq '${tagId}'`
+            }
+          }
+        : null;
+      return Promise.all([
+        (new Promise((resolve, reject) => {
+          http.get("/api/content/logos/articles", objectWithSettings).then(
+            r => {
+              commit(mutt.SET_FILT_ARTICLES, r.data.items);
+              resolve(r.data);
+            },
+            ({ response }) => {
+              reject(response.data);
+            }
+          );
+        }),
+        dispatch("getTags"))
+      ]);
     }
-    // getArticlesByTag({ commit }, tag) {
-    // return new Promise((resolve, reject) => {
-    // });
-    // }
   },
   getters: {
     getTagById(state) {

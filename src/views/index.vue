@@ -1,7 +1,9 @@
 <template>
   <main>
-    <HomeBaner />
-    <ArticleList />
+    <HomeBaner :tag="categories[0]" />
+    <ArticleList :tag="categories[0]" />
+    <!-- -- -->
+    <!-- <ArticleList :tag="i" v-for="i in categories.slice(1)"/> -->
   </main>
 </template>
 
@@ -14,6 +16,11 @@ export default {
   components: {
     HomeBaner,
     ArticleList
+  },
+  data() {
+    return {
+      categories: ["hot", "news", "pops"]
+    };
   }
 };
 </script>

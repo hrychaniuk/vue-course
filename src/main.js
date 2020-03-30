@@ -13,3 +13,9 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount("#app");
+
+// Шо робити коли настроїв squidex + insomnia?
+// Пошук по тегах
+// а щоби на головній вивести все по тегах треба три запити робити?
+
+// token in LocalStorage
