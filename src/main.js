@@ -14,6 +14,13 @@ new Vue({
   render: h => h(App)
 }).$mount("#app");
 
+// production (CI/CD) --> logos.com
+// master (CI/CD) --> staging + bugs (heroku.app.1234.com)
+// develop
+
+// develop <- feature/header-view
+// develop <- feature/auth-module
+
 // Шо робити коли настроїв squidex + insomnia?
 // Пошук по тегах
 // а щоби на головній вивести все по тегах треба три запити робити?
