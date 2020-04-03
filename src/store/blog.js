@@ -1,4 +1,8 @@
 import { http } from "@/plugins/http";
+import Vue from "vue";
+
+// Vue.set
+// this.$set
 
 const mutt = {
   SET_FILT_ARTICLES: "SET_FILT_ARTICLES",
@@ -18,9 +22,18 @@ export default {
     filteredArticles: [],
     tags: null,
     singleArticle: null,
-    loaded: false
+    loaded: false,
+    ///
+    blogs: {
+      new: [1, 2, 3],
+      hot: [1, 2, 3]
+      // popular: [...]
+    }
   },
   mutations: {
+    SET_BLOG_TAG(state) {
+      Vue.set(state.blogs, "popular", [4, 5, 6]);
+    },
     [mutt.SET_FILT_ARTICLES](state, articles) {
       state.filteredArticles = articles;
     },

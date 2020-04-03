@@ -8,11 +8,11 @@ const mutt = {
 export default {
   namespaced: true,
   state: {
-    token: null,
+    token: localStorage.token || null,
     error: null
   },
   mutations: {
-    [mutt.SET_TOKEN](state, token = localStorage.token) {
+    [mutt.SET_TOKEN](state, token) {
       state.token = token;
       localStorage.token = token;
       http.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -23,7 +23,9 @@ export default {
   },
   actions: {
     login({ commit, getters, dispatch }) {
-      if (getters.isLogin) return Promise.resolve();
+      console.log(getters);
+
+      // if (getters.isLogin) return Promise.resolve();
 
       return new Promise((resolve, reject) => {
         const body = new FormData();

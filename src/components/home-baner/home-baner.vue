@@ -33,7 +33,6 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("cars", ["totalCountCars"]),
     ...mapGetters("blog", {
       getTagById: "getTagById",
       article: "firstArtice"
@@ -41,7 +40,7 @@ export default {
   },
   created() {
     this.$store.dispatch("blog/getArticles");
-    this.$store.dispatch("cars/getCars");
+    // this.$store.dispatch("cars/getCars");
   }
 };
 </script>

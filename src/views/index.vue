@@ -1,7 +1,13 @@
 <template>
   <main>
-    <home-baner :tag="categories[0]" />
-    <ArticleList :tag="categories[0]" />
+    <pre>{{ blogs }}</pre>
+
+    <button @click="$store.commit('blog/SET_BLOG_TAG')">Call mutation</button>
+
+    <hr />
+    <hr />
+    <home-baner />
+    <ArticleList />
     <!-- -- -->
     <!-- <ArticleList :tag="i" v-for="i in categories.slice(1)"/> -->
   </main>
@@ -16,6 +22,11 @@ export default {
   components: {
     HomeBaner,
     ArticleList
+  },
+  computed: {
+    blogs() {
+      return this.$store.state.blog.blogs;
+    }
   },
   data() {
     return {
