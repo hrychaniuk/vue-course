@@ -33,7 +33,9 @@ export default {
     }
   },
   created() {
+    // eslint-disable-next-line no-console
     console.log(mutt);
+
     this.getArticlesByTag().then(() => {
       /// ----> 1 day
       const el = this.tags.find(i => {

@@ -27,11 +27,16 @@ const routes = [
     path: "/blog",
     name: "blog",
     component: () => import("@/views/blog.vue")
+
+    // BlogList -> Local (BlogItem)
   },
   {
     path: "/blog/:slug",
     name: "blogitem",
     component: () => import("@/views/blog-item.vue")
+
+    // local --> app.js min
+    // global --> app.js(BlogItem)
   }
 ];
 

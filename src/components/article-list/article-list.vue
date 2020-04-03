@@ -13,24 +13,25 @@
 </template>
 
 <script>
-import ArticleItem from '@/components/article-item/article-item';
-import { /*mapState,*/ mapGetters } from 'vuex';
+import ArticleItem from "@/components/article-item/article-item";
+import { /*mapState,*/ mapGetters } from "vuex";
 
 export default {
+  props: ["tag"],
   computed: {
-    ...mapGetters('blog', {
-      articles: 'exceptFirstArtices',
-    }),
+    ...mapGetters("blog", {
+      articles: "exceptFirstArtices"
+    })
   },
   components: {
-    ArticleItem,
+    ArticleItem
   },
   created() {
-    this.$store.dispatch('blog/getArticles');
-  },
+    this.$store.dispatch("blog/getArticles", this.tag);
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import 'article-list.scss';
+@import "article-list.scss";
 </style>

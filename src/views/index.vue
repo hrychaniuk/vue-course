@@ -1,6 +1,6 @@
 <template>
   <main>
-    <HomeBaner :tag="categories[0]" />
+    <home-baner :tag="categories[0]" />
     <ArticleList :tag="categories[0]" />
     <!-- -- -->
     <!-- <ArticleList :tag="i" v-for="i in categories.slice(1)"/> -->
