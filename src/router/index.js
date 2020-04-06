@@ -47,6 +47,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  // dispatch("translations/getAll", null, { root: true });
+
   if (
     to.matched.some(record => record.meta.notProtected) ||
     store.getters["auth/isLogin"]

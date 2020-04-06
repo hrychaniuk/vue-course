@@ -1,10 +1,8 @@
 import { http } from "@/plugins/http";
 import Vue from "vue";
 
-// Vue.set
-// this.$set
-
 const mutt = {
+  SET_HOME_ARTICLES: "SET_HOME_ARTICLES",
   SET_FILT_ARTICLES: "SET_FILT_ARTICLES",
   SET_SINGLE_ARCTICLE: "SET_SINGLE_ARCTICLE",
   DEL_SINGLE_ARCTICLE: "DEL_SINGLE_ARCTICLE",
@@ -18,22 +16,24 @@ export { mutt };
 export default {
   namespaced: true,
   state: {
+    articleHome: {
+      // hot: [1,2,3,4],
+      // news: [1,2,3]
+    },
+    //
     articles: [],
     filteredArticles: [],
-    tags: null,
+    tags: [],
     singleArticle: null,
-    loaded: false,
-    ///
-    blogs: {
-      new: [1, 2, 3],
-      hot: [1, 2, 3]
-      // popular: [...]
-    }
+    loaded: false
   },
   mutations: {
-    SET_BLOG_TAG(state) {
-      Vue.set(state.blogs, "popular", [4, 5, 6]);
+    [mutt.SET_HOME_ARTICLES](state, { tag, data }) {
+      Vue.set(state.articleHome, tag, data);
     },
+    //
+    //
+    //
     [mutt.SET_FILT_ARTICLES](state, articles) {
       state.filteredArticles = articles;
     },
@@ -108,6 +108,39 @@ export default {
           );
       });
     },
+    setArticlesWithTag({ state, commit }) {
+      const allRequestForTags = state.tags.map((tag, i) => {
+        return new Promise((resolve, reject) => {
+          console.log(tag);
+
+          const objectWithSettings = {
+            params: {
+              $filter: `data/categs/iv eq '${tag.id}'`,
+              $top: !i ? 4 : 3
+            }
+          };
+          http.get("/api/content/logos/articles", objectWithSettings).then(
+            r => {
+              commit(mutt.SET_HOME_ARTICLES, {
+                data: r.data.items,
+                tag: tag.data.category
+              });
+              resolve();
+            },
+            ({ response }) => {
+              reject(response.data);
+            }
+          );
+        });
+      });
+
+      return Promise.all(allRequestForTags);
+    },
+    getArticlesForHome({ dispatch }) {
+      return dispatch("getTags").then(() => {
+        return dispatch("setArticlesWithTag");
+      });
+    },
     getArticlesByTag({ commit, dispatch }, tagId) {
       const objectWithSettings = tagId
         ? {
@@ -133,6 +166,12 @@ export default {
     }
   },
   getters: {
+    tagFirst(state) {
+      return state.tags[0] || null;
+    },
+    tagExceptFirst(state) {
+      return state.tags.splice(1) || [];
+    },
     getTagById(state) {
       return function(id) {
         return state.tags.find(i => i.id === id);
