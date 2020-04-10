@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="isLoader">
     <h1>{{ singleArticle.title }}</h1>
     <img width="500" :src="singleArticle.image[0]" alt="" />
     <router-link :to="'/'">
@@ -17,6 +17,11 @@ export default {
   computed: {
     ...mapState("blog", ["singleArticle"]) // < -- null --- waiting <-- data Article
   },
+  data() {
+    return {
+      isLoader: false
+    };
+  },
   beforeRouteLeave(to, from, next) {
     this.$store.commit(`blog/${mutt.DEL_SINGLE_ARCTICLE}`);
     next();
@@ -24,17 +29,19 @@ export default {
   methods: {
     ...mapActions("blog", ["getArticleBySlug"])
   },
-  beforeRouteEnter(/*to, from, next*/) {
-    // store.dispatch('articles/getArticleBySlug', route.slug).then(next)
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
-    // next(vm => {})
-  },
+  // beforeRouteEnter(/*to, from, next*/) {
+  // store.dispatch('articles/getArticleBySlug', route.slug).then(next)
+  // called before the route that renders this component is confirmed.
+  // does NOT have access to `this` component instance,
+  // because it has not been created yet when this guard is called!
+  // next(vm => {})
+  // },
   created() {
     // now request in creaated
     // make in hook beforeRouteEnter
-    this.getArticleBySlug(this.$route.params.slug); // ------> request from VUEX ---> waiting (5s) --> commit(singleArticle) ---> state = singleArticle
+    this.getArticleBySlug(this.$route.params.slug).then(() => {
+      this.isLoader = true;
+    });
   }
 };
 </script>

@@ -2,7 +2,6 @@
   <main>
     <HomeBaner v-if="false" :tag="tagFirst" />
     <ArticleList v-if="isLoaded" :ignore-first="true" :tag="tagFirst" />
-
     <!-- ---- -->
     <div>123</div>
     <!-- ---- -->

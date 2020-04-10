@@ -8,7 +8,7 @@ const mutt = {
 export default {
   namespaced: true,
   state: {
-    token: localStorage.token || null,
+    token: /*localStorage.token ||*/ null,
     error: null
   },
   mutations: {
@@ -54,7 +54,7 @@ export default {
   },
   getters: {
     isLogin(state) {
-      return !!state.token && localStorage.token;
+      return !!state.token /*&& localStorage.token*/;
     }
   }
 };

@@ -4,7 +4,6 @@
       <router-link
         :to="{ path: 'blog', query: { tag: tag.data.category } }"
         :key="tag.id"
-        @click="setTag(tag.id)"
         v-for="tag in tags"
       >
         Set {{ tag.data.category }} tag
@@ -26,6 +25,19 @@ export default {
   computed: {
     ...mapState("blog", ["filteredArticles", "tags"])
   },
+  // watch: {
+  //   $router() {
+  //     console.log(123);
+  //   }
+  // },
+  // beforeRouteUpdate (to, from, next) {
+  // вызывается когда маршрут, что рендерит этот компонент изменился,
+  // но этот компонент будет повторно использован в новом маршруте.
+  // Например, для маршрута с динамическими параметрами `/foo/:id`, когда мы
+  // перемещаемся между `/foo/1` и `/foo/2`, экземпляр того же компонента `Foo`
+  // будет использован повторно, и этот хук будет вызван когда это случится.
+  // Также имеется доступ в `this` к экземпляру компонента.
+  // },
   methods: {
     ...mapActions("blog", ["getArticlesByTag"]),
     setTag(tagId) {
@@ -45,16 +57,5 @@ export default {
       this.getArticlesByTag(tagId);
     });
   }
-  // beforeRouteEnter(to, from, next) {
-  //   store.dispatch('blog/getArticlesByTag').then(() => {
-  //     /// ----> 1 day
-  //     const el = store.state.blog.tags.find(i => {
-  //       return i.data.category === to.query.tag;
-  //     });
-  //     const tagId = el && el.id ? el.id : null;
-  //     store.dispatch('blog/getArticlesByTag')(tagId);
-  //     next();
-  //   });
-  // }
 };
 </script>

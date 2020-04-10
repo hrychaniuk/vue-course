@@ -1,3 +1,21 @@
 @import './settings.scss';
 
 // add global, btn, components, normalize + other
+
+@mixin hover-state {
+  .no-touchevent &:hover {
+    @content;
+  }
+}
+
+
+.btn {
+
+  @include hover-state {
+    opacity: 0.8;
+  }
+}
+
+// .no-touchevent .btn:hover {
+//   opacity: 0.8;
+// }
