@@ -16,6 +16,65 @@
   }
 }
 
-// .no-touchevent .btn:hover {
-//   opacity: 0.8;
-// }
+
+#app {
+  position: relative;
+  overflow: hidden;
+}
+
+body {
+
+  &.overflow {
+    overflow: hidden;
+  }
+}
+
+$STEP: 30px;
+$DIRECTION: translateY;
+
+%step-absolute {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/** ***** **/
+/** ***** **/
+/** RIGHT **/
+/** ***** **/
+/** ***** **/
+.fade-leave-active, .fade-enter-active {
+  transition-property: transform, opacity;
+}
+
+.fade-leave-active {
+  transition-duration: 650ms;
+}
+.fade-enter-active {
+  transition-duration: 800ms;
+  transition-delay: 150ms;
+}
+/**
+* Leave
+*/
+.fade-leave {
+  @extend %step-absolute;
+  transform: none;
+}
+.fade-leave-to {
+  @extend %step-absolute;
+  transform: #{"#{$DIRECTION}(-#{$STEP})"};
+  opacity: 0;
+}
+/**
+* Enter
+*/
+.fade-enter {
+  transform: #{"#{$DIRECTION}(#{$STEP})"};
+  opacity: 0;
+}
+.fade-enter-to {
+  transform: none;
+}
+

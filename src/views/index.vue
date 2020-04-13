@@ -1,6 +1,7 @@
 <template>
   <main>
     <HomeBaner v-if="false" :tag="tagFirst" />
+    <h1><router-link to="/test2">Test</router-link></h1>
     <ArticleList v-if="isLoaded" :ignore-first="true" :tag="tagFirst" />
     <!-- ---- -->
     <div>123</div>

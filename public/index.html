@@ -7,11 +7,35 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>logos</title>
   </head>
-  <body>
+  <body class="overflow">
     <noscript>
       <strong>We're sorry but logos doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app"></div>    
+    <div class="preloader">
+      @
+    </div>
+    <style>
+      .preloader {
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 200px;
+        transition: all 300ms;  
+      }
+
+      .loaded .preloader {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
     <!-- built files will be auto injected -->
   </body>
 </html>

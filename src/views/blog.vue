@@ -9,6 +9,7 @@
         Set {{ tag.data.category }} tag
       </router-link>
     </div>
+
     <h1>Tags</h1>
     <pre>{{ tags }}</pre>
     <h1>Articels</h1>
@@ -18,26 +19,23 @@
 
 <script>
 // import store from "@/store";
-import { mutt } from "@/store/blog";
 import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
     ...mapState("blog", ["filteredArticles", "tags"])
   },
-  // watch: {
-  //   $router() {
-  //     console.log(123);
-  //   }
-  // },
-  // beforeRouteUpdate (to, from, next) {
-  // вызывается когда маршрут, что рендерит этот компонент изменился,
-  // но этот компонент будет повторно использован в новом маршруте.
-  // Например, для маршрута с динамическими параметрами `/foo/:id`, когда мы
-  // перемещаемся между `/foo/1` и `/foo/2`, экземпляр того же компонента `Foo`
-  // будет использован повторно, и этот хук будет вызван когда это случится.
-  // Также имеется доступ в `this` к экземпляру компонента.
-  // },
+  watch: {
+    // $route(to, from) {
+    // console.log(from);
+    // console.log(to);
+    // }
+  },
+  beforeRouteUpdate(to, from, next) {
+    // console.log(from);
+    // console.log(to);
+    next();
+  },
   methods: {
     ...mapActions("blog", ["getArticlesByTag"]),
     setTag(tagId) {
@@ -46,7 +44,7 @@ export default {
   },
   created() {
     // eslint-disable-next-line no-console
-    console.log(mutt);
+    console.log(this.$route.query);
 
     this.getArticlesByTag().then(() => {
       /// ----> 1 day

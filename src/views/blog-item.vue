@@ -1,12 +1,14 @@
 <template>
-  <section v-if="isLoader">
-    <h1>{{ singleArticle.title }}</h1>
-    <img width="500" :src="singleArticle.image[0]" alt="" />
-    <router-link :to="'/'">
-      {{ $t(`label.${_getTag(singleArticle.categs)}`) }}
-    </router-link>
-    <div v-html="singleArticle.intro"></div>
-  </section>
+  <main>
+    <div v-if="isLoader">
+      <h1>{{ singleArticle.title }}</h1>
+      <img width="500" :src="singleArticle.image[0]" alt="" />
+      <router-link :to="'/'">
+        {{ $t(`label.${_getTag(singleArticle.categs)}`) }}
+      </router-link>
+      <div v-html="singleArticle.intro"></div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -29,19 +31,14 @@ export default {
   methods: {
     ...mapActions("blog", ["getArticleBySlug"])
   },
-  // beforeRouteEnter(/*to, from, next*/) {
-  // store.dispatch('articles/getArticleBySlug', route.slug).then(next)
-  // called before the route that renders this component is confirmed.
-  // does NOT have access to `this` component instance,
-  // because it has not been created yet when this guard is called!
-  // next(vm => {})
-  // },
   created() {
     // now request in creaated
     // make in hook beforeRouteEnter
-    this.getArticleBySlug(this.$route.params.slug).then(() => {
-      this.isLoader = true;
-    });
+    setTimeout(() => {
+      this.getArticleBySlug(this.$route.params.slug).then(() => {
+        this.isLoader = true;
+      });
+    }, 2000);
   }
 };
 </script>
