@@ -1,6 +1,10 @@
 <template>
+  <!-- eslint-disable-next-line no-console -->
   <section>
     <div>
+      <router-link :to="{ path: 'blog' }">
+        Clear
+      </router-link>
       <router-link
         :to="{ path: 'blog', query: { tag: tag.data.category } }"
         :key="tag.id"
@@ -10,50 +14,43 @@
       </router-link>
     </div>
 
-    <h1>Tags</h1>
-    <pre>{{ tags }}</pre>
     <h1>Articels</h1>
-    <pre>{{ filteredArticles }}</pre>
+    <pre>{{
+      filteredArticles.map(i => ({
+        title: i.data.title,
+        tag: _getTag(i.data.categs)
+      }))
+    }}</pre>
   </section>
 </template>
 
 <script>
-// import store from "@/store";
 import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
     ...mapState("blog", ["filteredArticles", "tags"])
   },
-  watch: {
-    // $route(to, from) {
-    // console.log(from);
-    // console.log(to);
-    // }
-  },
   beforeRouteUpdate(to, from, next) {
-    // console.log(from);
-    // console.log(to);
-    next();
+    this.articleRequest(to, next);
   },
   methods: {
-    ...mapActions("blog", ["getArticlesByTag"]),
-    setTag(tagId) {
-      this.getArticlesByTag(tagId);
-    }
+    articleRequest(route, callback = () => {}) {
+      this.getArtByTag({
+        tagName: route.query.tag,
+        isTagExist: "tag" in route.query
+      }).then(callback);
+    },
+    ...mapActions("blog", ["getArtByTag"])
   },
   created() {
-    // eslint-disable-next-line no-console
-    console.log(this.$route.query);
+    // tag - no ----> get all articels
+    // tag - yes && tag - valid ----> get articels with filter
+    //
+    // tag - yes && tag - novalid ----> 404
+    // tag - yes && tag = undefined ----> 404
 
-    this.getArticlesByTag().then(() => {
-      /// ----> 1 day
-      const el = this.tags.find(i => {
-        return i.data.category === this.$route.query.tag;
-      });
-      const tagId = el && el.id ? el.id : null;
-      this.getArticlesByTag(tagId);
-    });
+    this.articleRequest(this.$route);
   }
 };
 </script>

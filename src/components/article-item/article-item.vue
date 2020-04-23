@@ -8,6 +8,8 @@
         <div class="info">
           <time :datetime="data.date">{{ data.date | formatDate }}</time>
 
+          <pre>{{ data.categs }}</pre>
+
           <router-link :to="'/'">
             {{ $t(`label.${_getTag(data.categs)}`) }}
           </router-link>

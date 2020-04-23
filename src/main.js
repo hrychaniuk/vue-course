@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { i18n } from "@/plugins/i18n";
-import '@/plugins/modernizr';
+import "@/plugins/modernizr";
 import "@/global-register";
 
 Vue.config.productionTip = false;
@@ -19,8 +19,10 @@ new Vue({
 // master (CI/CD) --> staging + bugs (heroku.app.1234.com)
 // develop
 
+// local --> git --> production (npm tun build && node server.js)
+
 // develop <- feature/header-view
-// develop <- feature/auth-module
+// develop <- feature/auth-module  nmp i, npm i {name} -S, npm uninstall {name}
 
 // Шо робити коли настроїв squidex + insomnia?
 // Пошук по тегах

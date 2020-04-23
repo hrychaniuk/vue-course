@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { http } from "@/plugins/http";
 import Vue from "vue";
+import router from "@/router";
 
 const mutt = {
   SET_HOME_ARTICLES: "SET_HOME_ARTICLES",
@@ -54,7 +56,9 @@ export default {
     }
   },
   actions: {
-    getTags({ commit }) {
+    getTags({ state, commit }) {
+      if (state.tags.length) return Promise.resolve();
+
       return new Promise((resolve, reject) => {
         http.get("/api/content/logos/article-categories").then(
           r => {
@@ -96,10 +100,12 @@ export default {
           })
           .then(
             r => {
-              commit(
-                mutt.SET_SINGLE_ARCTICLE,
-                r.data.items[0] ? r.data.items[0].data : null
-              );
+              const data = r.data.items[0];
+              if (data) {
+                commit(mutt.SET_SINGLE_ARCTICLE, r.data.items[0].data);
+              } else {
+                router.replace("/404");
+              }
               resolve(r.data);
             },
             ({ response }) => {
@@ -111,7 +117,7 @@ export default {
     setArticlesWithTag({ state, commit }) {
       const allRequestForTags = state.tags.map((tag, i) => {
         return new Promise((resolve, reject) => {
-          console.log(tag);
+          // console.log(tag);
 
           const objectWithSettings = {
             params: {
@@ -141,17 +147,30 @@ export default {
         return dispatch("setArticlesWithTag");
       });
     },
-    getArticlesByTag({ commit, dispatch }, tagId) {
-      const objectWithSettings = tagId
-        ? {
-            params: {
-              $filter: `data/categs/iv eq '${tagId}'`
-            }
-          }
-        : null;
-      return Promise.all([
-        (new Promise((resolve, reject) => {
-          http.get("/api/content/logos/articles", objectWithSettings).then(
+    //
+    //
+    //
+    //
+    //
+    getArtByTag({ state, commit, dispatch }, { tagName, isTagExist }) {
+      return dispatch("getTags").then(() => {
+        const findTag = state.tags.find(i => i.data.category === tagName);
+        if (!findTag && isTagExist) return router.replace("/404");
+
+        // - tag exist and valid || tag is not exist
+
+        const getQueryData = () => {
+          return isTagExist
+            ? {
+                params: {
+                  $filter: `data/categs/iv eq '${findTag.id}'`
+                }
+              }
+            : null;
+        };
+
+        return new Promise((resolve, reject) => {
+          http.get("/api/content/logos/articles", getQueryData()).then(
             r => {
               commit(mutt.SET_FILT_ARTICLES, r.data.items);
               resolve(r.data);
@@ -160,21 +179,30 @@ export default {
               reject(response.data);
             }
           );
-        }),
-        dispatch("getTags"))
-      ]);
+        });
+      });
     }
   },
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   getters: {
     tagFirst(state) {
       return state.tags[0] || null;
     },
     tagExceptFirst(state) {
-      return state.tags.splice(1) || [];
+      return /* [1] */ state.tags.slice(1) /* [2, 3] */ || [];
     },
     getTagById(state) {
       return function(id) {
-        return state.tags.find(i => i.id === id);
+        return state.tags.find(i => {
+          // console.log(i.id, id);
+          return i.id === id;
+        });
       };
     },
     articlesCount(state) {

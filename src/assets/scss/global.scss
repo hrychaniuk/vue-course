@@ -78,3 +78,12 @@ $DIRECTION: translateY;
   transform: none;
 }
 
+
+
+a {
+  padding: 10px;
+
+  &.router-link-exact-active {
+    opacity: 0.4;
+  }
+}
